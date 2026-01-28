@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>마스터플랜 v3.3</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            line-height: 1.6;
+            padding: 16px;
+            padding-bottom: 30px;
+        }
+        h1 {
+            font-size: 1.3rem;
+            color: #ffd369;
+            padding: 20px 0 10px;
+            border-bottom: 2px solid #ffd369;
+            margin-bottom: 16px;
+        }
+        h2 {
+            font-size: 1rem;
+            color: #1a1a2e;
+            background: #ffd369;
+            padding: 8px 12px;
+            border-radius: 8px 8px 0 0;
+            margin-top: 20px;
+        }
+        .card {
+            background: #16213e;
+            border-radius: 0 0 8px 8px;
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #293b5f;
+        }
+        .row:last-child { border-bottom: none; }
+        .value { color: #fff; font-weight: 600; text-align: right; }
+        .highlight {
+            background: #ffd369;
+            color: #1a1a2e;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .time {
+            color: #ffd369;
+            font-weight: bold;
+            min-width: 50px;
+        }
+        .warn {
+            background: #e94560;
+            color: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 12px 0;
+        }
+        .tip {
+            background: #0f3460;
+            border-left: 4px solid #ffd369;
+            padding: 12px;
+            border-radius: 0 8px 8px 0;
+            margin: 12px 0;
+        }
+        
+        /* 체크박스 스타일 */
+        .check {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #293b5f;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .check:last-child { border-bottom: none; }
+        .check:active { background: #293b5f; }
+        .box {
+            width: 26px;
+            height: 26px;
+            border: 2px solid #ffd369;
+            border-radius: 6px;
+            margin-right: 12px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .box.checked {
+            background: #ffd369;
+        }
+        .box.checked::after {
+            content: "✓";
+            color: #1a1a2e;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .check.done .check-text {
+            text-decoration: line-through;
+            color: #666;
+        }
+        
+        .tag {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
+        }
+        .t-food { background: #2d6a4f; }
+        .t-workout { background: #9d4edd; }
+        .t-study { background: #0077b6; }
+        .t-trade { background: #e85d04; }
+        .t-rest { background: #6c757d; }
+        .t-audio { background: #457b9d; }
+        .divider {
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ffd369, transparent);
+            margin: 30px 0;
+        }
+        .grid2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .stat {
+            background: #0f3460;
+            padding: 14px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-num {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #ffd369;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+        table {
+            width: 100%;
+            font-size: 0.85rem;
+            border-collapse: collapse;
+        }
+        th {
+            background: #0f3460;
+            padding: 10px 6px;
+            text-align: left;
+            color: #ffd369;
+        }
+        td {
+            padding: 10px 6px;
+            border-bottom: 1px solid #293b5f;
+        }
+        .small { font-size: 0.8rem; color: #aaa; }
+        .flex-choice {
+            background: #0f3460;
+            border: 2px dashed #ffd369;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 12px 0;
+        }
+        .or {
+            text-align: center;
+            color: #ffd369;
+            font-weight: bold;
+            padding: 8px 0;
+        }
+        
+        /* 상태 표시 */
+        .status-bar {
+            background: #0f3460;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .status-date {
+            color: #ffd369;
+            font-weight: bold;
+        }
+        .status-progress {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* 리셋 버튼 */
+        .reset-btn {
+            background: none;
+            border: 1px solid #666;
+            color: #666;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+        .reset-btn:active {
+            background: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="status-bar">
+    <span class="status-date" id="today-date"></span>
+    <span class="status-progress" id="daily-progress">0/0</span>
+</div>
+
+<h1>✅ 오늘 체크리스트</h1>
+
+<h2>🌅 아침 (06:00~07:00)</h2>
+<div class="card">
+    <div class="check" data-id="d1" data-type="daily">
+        <div class="box"></div>
+        <span class="check-text">인바디 + 혈압 측정</span>
+    </div>
+    <div class="check" data-id="d2" data-type="daily">
+        <div class="box"></div>
+        <span class="check-text">물 500ml</span>
+    </div>
+    <div class="check" data-id="d3" data-type="daily">
+        <div class="box"></div>
+        <span class="check-text">아침 운동 or 듀오링고</span>
+    </div>
+</div>
+
+<h2>🚌 출퇴근 버스</h2>
+<div class="card">
+    <div class="check" data-id="d4" data-type="daily">
+        <div class="box"></div>
+        <span class="check-text">🎧 경제뉴스 or 휴식</span>
+    </div>
+</div>
+
+<h2>🍽️ 식사</h2>
+<div class="card">
+    <div class="check" data-id="d5" data-type="daily">
+        <div class="box"></div>
+        <span class="check-text">12:00 점심 <span class="tag t-food">단식종료</span></span>
+    </div>
+    <div class="check" data-id="d6" data-type="daily">
+        <div class="box"></div>
+        <span class="check-text"><strong>15:00 🥚 삶은계란 2개</strong></span>
+    </div>
+    <div class="check" data-id="d7" data-type="daily">
+        <div class="box"></div>
+        <span class="check-text">20:00 저녁 <span class="tag t-food">마지막</span></span>
+    </div>
+    <div class="check" data-id="d8" data-type="daily">
+        <div class="box"></div>
+        <span class="check-text">물 2L 완료</span>
+    </div>
+</div>
+
+<div class="tip">
+    ☕ 커피: 식사 전후 1~2시간만 피하기
+</div>
+
+<h2>💪 운동</h2>
+<div class="card">
+    <div class="check" data-id="d9" data-type="daily">
+        <div class="box"></div>
+        <span class="check-text">오늘 운동 완료</span>
+    </div>
+</div>
+<table>
+    <tr><th>요일</th><th>버피</th><th>턱걸이</th><th>추가</th></tr>
+    <tr><td><strong>월/수/금</strong></td><td>100</td><td>30</td><td>플란체린</td></tr>
+    <tr><td><strong>화/목/토</strong></td><td>50</td><td>15</td><td>파이크푸쉬업</td></tr>
+    <tr><td><strong>일</strong></td><td>-</td><td>-</td><td>휴식</td></tr>
+</table>
+
+<h2>📚 학습/트레이딩</h2>
+<div class="card">
+    <div class="check" data-id="d10" data-type="daily">
+        <div class="box"></div>
+        <span class="check-text">듀오링고 30분+</span>
+    </div>
+    <div class="check" data-id="d11" data-type="daily">
+        <div class="box"></div>
+        <span class="check-text">종가 TOP5 확인</span>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===== 주간 체크 ===== -->
+<h1>📅 주간 체크 <span class="small">(월요일 초기화)</span></h1>
+
+<div class="card">
+    <div class="check" data-id="w1" data-type="weekly">
+        <div class="box"></div>
+        <span class="check-text">체중/혈압 주간 평균 계산</span>
+    </div>
+    <div class="check" data-id="w2" data-type="weekly">
+        <div class="box"></div>
+        <span class="check-text">계란 14개 섭취 완료</span>
+    </div>
+    <div class="check" data-id="w3" data-type="weekly">
+        <div class="box"></div>
+        <span class="check-text">듀오링고 4~5유닛</span>
+    </div>
+    <div class="check" data-id="w4" data-type="weekly">
+        <div class="box"></div>
+        <span class="check-text">운동 6일 완료</span>
+    </div>
+    <div class="check" data-id="w5" data-type="weekly">
+        <div class="box"></div>
+        <span class="check-text">My Life RPG 블로그 정리</span>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===== 일과표 ===== -->
+<h1>📋 일과표</h1>
+
+<h2>🏢 근무일</h2>
+<div class="card">
+    <div class="row"><span class="time">06:00</span><span>기상 → 인바디/혈압 → 물</span></div>
+    <div class="row"><span class="time">06:15</span><span><span class="highlight">운동 or 듀오링고</span></span></div>
+    <div class="row"><span class="time">07:00</span><span>버스 🎧 경제뉴스/휴식</span></div>
+    <div class="row"><span class="time">08:30</span><span>회사 도착</span></div>
+    <div class="row"><span class="time">12:00</span><span>점심</span></div>
+    <div class="row"><span class="time">15:00</span><span><span class="highlight">🥚 계란 2개</span></span></div>
+    <div class="row"><span class="time">18:00</span><span>퇴근 버스</span></div>
+    <div class="row"><span class="time">20:00</span><span>저녁</span></div>
+    <div class="row"><span class="time">20:30</span><span>자유시간</span></div>
+    <div class="row"><span class="time">23:00</span><span>취침</span></div>
+</div>
+
+<h2>🌴 휴무일</h2>
+<div class="card">
+    <div class="row"><span class="time">08:00</span><span>기상 → 인바디/혈압</span></div>
+    <div class="row"><span class="time">09:00</span><span>걷기 40분~1시간</span></div>
+    <div class="row"><span class="time">10:00</span><span>듀오링고 1.5시간</span></div>
+    <div class="row"><span class="time">11:30</span><span>코딩/개발</span></div>
+    <div class="row"><span class="time">12:30</span><span>점심</span></div>
+    <div class="row"><span class="time">15:30</span><span><span class="highlight">🥚 계란</span> + 운동</span></div>
+    <div class="row"><span class="time">17:00</span><span>자유시간</span></div>
+    <div class="row"><span class="time">23:00</span><span>취침</span></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===== 트레이딩 ===== -->
+<h1>📈 트레이딩</h1>
+<div class="card">
+    <div class="row"><span>진입</span><span class="value">유목민 거래량법</span></div>
+    <div class="row"><span>홀딩</span><span class="value">5~30일</span></div>
+    <div class="row"><span>익절</span><span class="value">D+1:5% D+2:8% D+3:10%</span></div>
+    <div class="row"><span>손절</span><span class="value" style="color:#e94560">-5% 자동</span></div>
+    <div class="row"><span>비중</span><span class="value">종목당 최대 30%</span></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===== 목표 ===== -->
+<h1>🎯 목표</h1>
+
+<h2>현재</h2>
+<div class="grid2">
+    <div class="stat"><div class="stat-num">84.8</div><div class="stat-label">체중</div></div>
+    <div class="stat"><div class="stat-num">11.2</div><div class="stat-label">Hb</div></div>
+    <div class="stat"><div class="stat-num">Lv.13</div><div class="stat-label">듀오링고</div></div>
+    <div class="stat"><div class="stat-num">-2,220</div><div class="stat-label">순자산(만)</div></div>
+</div>
+
+<h2>분기별</h2>
+<table>
+    <tr><th>시점</th><th>체중</th><th>Hb</th><th>영어</th></tr>
+    <tr><td>Q1</td><td>80kg</td><td>13+</td><td>Lv.45</td></tr>
+    <tr><td>Q2</td><td>78kg</td><td>14+</td><td>Lv.60</td></tr>
+    <tr><td>Q3</td><td>75kg</td><td>유지</td><td>Lv.75</td></tr>
+    <tr><td>Q4</td><td>73kg</td><td>유지</td><td>Lv.90</td></tr>
+</table>
+
+<div class="divider"></div>
+
+<h1>🚨 이번 주 긴급</h1>
+<div class="warn">
+    <strong>내과 예약</strong>: Hb 11.2 빈혈 원인검사<br>
+    → CBC + 철패널 + B12/엽산
+</div>
+
+<div class="card" style="text-align:center; margin-top:30px;">
+    <p style="color:#ffd369;">"70%만 해도 충분"</p>
+    <p class="small">지속이 핵심. 완벽 안 해도 됨.</p>
+    <button class="reset-btn" onclick="resetAll()" style="margin-top:12px;">전체 초기화</button>
+</div>
+
+<p style="text-align:center; margin-top:20px; color:#666; font-size:0.75rem;">
+    v3.3 | 체크 자동저장 | 일간:자정초기화 | 주간:월요일초기화
+</p>
+
+<script>
+(function() {
+    const STORAGE_KEY = 'masterplan_checks';
+    const DATE_KEY = 'masterplan_date';
+    const WEEK_KEY = 'masterplan_week';
+    
+    // 오늘 날짜 문자열
+    function getTodayStr() {
+        const d = new Date();
+        return d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
+    }
+    
+    // 이번 주 월요일 날짜 문자열
+    function getWeekStr() {
+        const d = new Date();
+        const day = d.getDay();
+        const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+        const monday = new Date(d.setDate(diff));
+        return monday.getFullYear() + '-' + (monday.getMonth()+1) + '-' + monday.getDate();
+    }
+    
+    // 요일 표시
+    function getWeekdayKor() {
+        const days = ['일', '월', '화', '수', '목', '금', '토'];
+        const d = new Date();
+        return days[d.getDay()];
+    }
+    
+    // 저장된 데이터 불러오기
+    function loadData() {
+        try {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+        } catch(e) {
+            return {};
+        }
+    }
+    
+    // 데이터 저장
+    function saveData(data) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+    
+    // 날짜 체크 및 초기화
+    function checkAndReset() {
+        const savedDate = localStorage.getItem(DATE_KEY);
+        const savedWeek = localStorage.getItem(WEEK_KEY);
+        const todayStr = getTodayStr();
+        const weekStr = getWeekStr();
+        
+        let data = loadData();
+        
+        // 날짜 바뀌면 일간 초기화
+        if (savedDate !== todayStr) {
+            Object.keys(data).forEach(key => {
+                if (key.startsWith('d')) {
+                    data[key] = false;
+                }
+            });
+            localStorage.setItem(DATE_KEY, todayStr);
+        }
+        
+        // 주 바뀌면(월요일) 주간 초기화
+        if (savedWeek !== weekStr) {
+            Object.keys(data).forEach(key => {
+                if (key.startsWith('w')) {
+                    data[key] = false;
+                }
+            });
+            localStorage.setItem(WEEK_KEY, weekStr);
+        }
+        
+        saveData(data);
+        return data;
+    }
+    
+    // UI 업데이트
+    function updateUI(data) {
+        document.querySelectorAll('.check').forEach(el => {
+            const id = el.dataset.id;
+            const box = el.querySelector('.box');
+            if (data[id]) {
+                box.classList.add('checked');
+                el.classList.add('done');
+            } else {
+                box.classList.remove('checked');
+                el.classList.remove('done');
+            }
+        });
+        updateProgress(data);
+    }
+    
+    // 진행률 업데이트
+    function updateProgress(data) {
+        let total = 0, done = 0;
+        document.querySelectorAll('.check[data-type="daily"]').forEach(el => {
+            total++;
+            if (data[el.dataset.id]) done++;
+        });
+        document.getElementById('daily-progress').textContent = done + '/' + total;
+    }
+    
+    // 날짜 표시
+    function showDate() {
+        const d = new Date();
+        const m = d.getMonth() + 1;
+        const day = d.getDate();
+        const weekday = getWeekdayKor();
+        document.getElementById('today-date').textContent = m + '/' + day + ' (' + weekday + ')';
+    }
+    
+    // 체크박스 클릭 이벤트
+    function initCheckboxes() {
+        document.querySelectorAll('.check').forEach(el => {
+            el.addEventListener('click', function() {
+                const id = this.dataset.id;
+                let data = loadData();
+                data[id] = !data[id];
+                saveData(data);
+                updateUI(data);
+            });
+        });
+    }
+    
+    // 전체 초기화
+    window.resetAll = function() {
+        if (confirm('모든 체크를 초기화할까요?')) {
+            localStorage.removeItem(STORAGE_KEY);
+            localStorage.removeItem(DATE_KEY);
+            localStorage.removeItem(WEEK_KEY);
+            location.reload();
+        }
+    };
+    
+    // 초기화
+    showDate();
+    const data = checkAndReset();
+    initCheckboxes();
+    updateUI(data);
+})();
+</script>
+
+</body>
+</html>
