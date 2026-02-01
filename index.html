@@ -3,237 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>마스터플랜 v4.1 스위치온</title>
+    <title>마스터플랜 v4.4 스위치온</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #1a1a2e;
-            color: #eee;
-            line-height: 1.6;
-            padding: 16px;
-            padding-bottom: 30px;
-        }
-        h1 {
-            font-size: 1.3rem;
-            color: #00ff88;
-            padding: 20px 0 10px;
-            border-bottom: 2px solid #00ff88;
-            margin-bottom: 16px;
-        }
-        h2 {
-            font-size: 1rem;
-            color: #1a1a2e;
-            background: #00ff88;
-            padding: 8px 12px;
-            border-radius: 8px 8px 0 0;
-            margin-top: 20px;
-        }
-        .card {
-            background: #16213e;
-            border-radius: 0 0 8px 8px;
-            padding: 14px;
-            margin-bottom: 16px;
-        }
-        .row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #293b5f;
-        }
-        .row:last-child { border-bottom: none; }
-        .value { color: #fff; font-weight: 600; text-align: right; }
-        .highlight {
-            background: #00ff88;
-            color: #1a1a2e;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-        }
-        .time {
-            color: #00ff88;
-            font-weight: bold;
-            min-width: 50px;
-        }
-        .warn {
-            background: #e94560;
-            color: #fff;
-            padding: 12px;
-            border-radius: 8px;
-            margin: 12px 0;
-        }
-        .tip {
-            background: #0f3460;
-            border-left: 4px solid #00ff88;
-            padding: 12px;
-            border-radius: 0 8px 8px 0;
-            margin: 12px 0;
-        }
-        .phase {
-            background: linear-gradient(135deg, #0f3460, #16213e);
-            border: 2px solid #00ff88;
-            border-radius: 8px;
-            padding: 14px;
-            margin: 12px 0;
-        }
-        .phase-title {
-            color: #00ff88;
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-        }
-        .phase-date {
-            color: #aaa;
-            font-size: 0.85rem;
-            margin-bottom: 10px;
-        }
-        
-        .check {
-            display: flex;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #293b5f;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .check:last-child { border-bottom: none; }
-        .check:active { background: #293b5f; }
-        .box {
-            width: 26px;
-            height: 26px;
-            border: 2px solid #00ff88;
-            border-radius: 6px;
-            margin-right: 12px;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-        .box.checked { background: #00ff88; }
-        .box.checked::after {
-            content: "✓";
-            color: #1a1a2e;
-            font-weight: bold;
-            font-size: 16px;
-        }
-        .check.done .check-text {
-            text-decoration: line-through;
-            color: #666;
-        }
-        
-        .divider {
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #00ff88, transparent);
-            margin: 30px 0;
-        }
-        .grid2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        .stat {
-            background: #0f3460;
-            padding: 14px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        .stat-num {
-            font-size: 1.6rem;
-            font-weight: bold;
-            color: #00ff88;
-        }
-        .stat-label {
-            font-size: 0.8rem;
-            color: #aaa;
-        }
-        table {
-            width: 100%;
-            font-size: 0.8rem;
-            border-collapse: collapse;
-            margin: 10px 0;
-        }
-        th {
-            background: #0f3460;
-            padding: 8px 4px;
-            text-align: center;
-            color: #00ff88;
-        }
-        td {
-            padding: 8px 4px;
-            border-bottom: 1px solid #293b5f;
-            text-align: center;
-        }
-        .fast-day { background: #2d1b1b; color: #e94560; }
-        .cheat-day { background: #3d2b1b; color: #ffd369; }
-        .small { font-size: 0.8rem; color: #aaa; }
-        
-        .status-bar {
-            background: #0f3460;
-            padding: 10px 14px;
-            border-radius: 8px;
-            margin-bottom: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .status-date { color: #00ff88; font-weight: bold; }
-        .status-progress { color: #aaa; font-size: 0.9rem; }
-        
-        .week-selector {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-        }
-        .week-btn {
-            flex: 1;
-            min-width: 70px;
-            padding: 10px 8px;
-            background: #16213e;
-            border: 2px solid #293b5f;
-            color: #aaa;
-            border-radius: 8px;
-            cursor: pointer;
-            text-align: center;
-            font-size: 0.85rem;
-        }
-        .week-btn.active {
-            border-color: #00ff88;
-            color: #00ff88;
-            background: #0f3460;
-        }
-        
-        .forbidden {
-            background: #2d1b1b;
-            border: 1px solid #e94560;
-            border-radius: 8px;
-            padding: 12px;
-            margin: 12px 0;
-        }
-        .forbidden-title {
-            color: #e94560;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-        
-        .reset-btn {
-            background: none;
-            border: 1px solid #666;
-            color: #666;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            cursor: pointer;
-        }
-        
-        .calendar {
-            background: #16213e;
-            border-radius: 8px;
-            padding: 10px;
-            margin: 10px 0;
-            overflow-x: auto;
-        }
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#1a1a2e;color:#eee;line-height:1.6;padding:16px;padding-bottom:30px;}
+        h1{font-size:1.3rem;color:#00ff88;padding:20px 0 10px;border-bottom:2px solid #00ff88;margin-bottom:16px;}
+        h2{font-size:1rem;color:#1a1a2e;background:#00ff88;padding:8px 12px;border-radius:8px 8px 0 0;margin-top:20px;}
+        .card{background:#16213e;border-radius:0 0 8px 8px;padding:14px;margin-bottom:16px;}
+        .row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #293b5f;align-items:center;}
+        .row:last-child{border-bottom:none;}
+        .value{color:#fff;font-weight:600;text-align:right;max-width:60%;}
+        .highlight{background:#00ff88;color:#1a1a2e;padding:2px 8px;border-radius:4px;font-weight:bold;}
+        .highlight-orange{background:#e85d04;color:#fff;padding:2px 8px;border-radius:4px;font-weight:bold;}
+        .time{color:#00ff88;font-weight:bold;min-width:50px;}
+        .tip{background:#0f3460;border-left:4px solid #00ff88;padding:12px;border-radius:0 8px 8px 0;margin:12px 0;}
+        .phase{background:linear-gradient(135deg,#0f3460,#16213e);border:2px solid #00ff88;border-radius:8px;padding:14px;margin:12px 0;}
+        .phase-title{color:#00ff88;font-weight:bold;font-size:1.1rem;margin-bottom:8px;}
+        .phase-date{color:#aaa;font-size:0.85rem;margin-bottom:10px;}
+        .check{display:flex;align-items:center;padding:12px 0;border-bottom:1px solid #293b5f;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+        .check:last-child{border-bottom:none;}
+        .check:active{background:#293b5f;}
+        .box{width:26px;height:26px;border:2px solid #00ff88;border-radius:6px;margin-right:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+        .box.checked{background:#00ff88;}
+        .box.checked::after{content:"✓";color:#1a1a2e;font-weight:bold;font-size:16px;}
+        .check.done .check-text{text-decoration:line-through;color:#666;}
+        .divider{height:3px;background:linear-gradient(90deg,transparent,#00ff88,transparent);margin:30px 0;}
+        .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+        .stat{background:#0f3460;padding:14px;border-radius:8px;text-align:center;}
+        .stat-num{font-size:1.6rem;font-weight:bold;color:#00ff88;}
+        .stat-label{font-size:0.8rem;color:#aaa;}
+        table{width:100%;font-size:0.8rem;border-collapse:collapse;margin:10px 0;}
+        th{background:#0f3460;padding:8px 4px;text-align:center;color:#00ff88;}
+        td{padding:8px 4px;border-bottom:1px solid #293b5f;text-align:center;}
+        .fast-day{background:#2d1b1b;color:#e94560;}
+        .cheat-day{background:#3d2b1b;color:#ffd369;}
+        .small{font-size:0.8rem;color:#aaa;}
+        .status-bar{background:#0f3460;padding:10px 14px;border-radius:8px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;}
+        .status-date{color:#00ff88;font-weight:bold;}
+        .status-progress{color:#aaa;font-size:0.9rem;}
+        .week-selector{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+        .week-btn{flex:1;min-width:70px;padding:10px 8px;background:#16213e;border:2px solid #293b5f;color:#aaa;border-radius:8px;cursor:pointer;text-align:center;font-size:0.85rem;}
+        .week-btn.active{border-color:#00ff88;color:#00ff88;background:#0f3460;}
+        .forbidden{background:#2d1b1b;border:1px solid #e94560;border-radius:8px;padding:12px;margin:12px 0;}
+        .forbidden-title{color:#e94560;font-weight:bold;margin-bottom:8px;}
+        .reset-btn{background:none;border:1px solid #666;color:#666;padding:4px 10px;border-radius:4px;font-size:0.75rem;cursor:pointer;}
+        .calendar{background:#16213e;border-radius:8px;padding:10px;margin:10px 0;overflow-x:auto;}
+        .legend{display:flex;gap:16px;margin:10px 0;font-size:0.8rem;flex-wrap:wrap;}
+        .legend-item{display:flex;align-items:center;gap:4px;}
+        .legend-dot{width:12px;height:12px;border-radius:3px;}
+        .motto{background:linear-gradient(135deg,#0f3460,#1a1a2e);border:1px solid #00ff88;border-radius:8px;padding:16px;text-align:center;margin:16px 0;}
+        .motto-text{color:#00ff88;font-size:1rem;font-weight:bold;}
+        .motto-sub{color:#aaa;font-size:0.85rem;margin-top:6px;}
+        .toggle-bar{display:flex;gap:8px;margin:16px 0;}
+        .toggle-btn{flex:1;padding:12px 8px;background:#16213e;border:2px solid #293b5f;color:#aaa;border-radius:8px;cursor:pointer;text-align:center;font-size:0.9rem;font-weight:bold;}
+        .toggle-btn.active{border-color:#00ff88;color:#00ff88;background:#0f3460;}
+        .toggle-btn.appt{border-color:#e85d04;color:#e85d04;background:#2d1b1b;}
+        .priority-tag{font-size:0.7rem;padding:2px 6px;border-radius:4px;margin-left:6px;font-weight:bold;}
+        .p1{background:#00ff88;color:#1a1a2e;}
+        .p2{background:#0077b6;color:#fff;}
     </style>
 </head>
 <body>
@@ -243,6 +70,12 @@
     <span class="status-progress" id="daily-progress">0/0</span>
 </div>
 
+<div class="motto">
+    <div class="motto-text">"할 수 있는 것만. 버티는 게 이기는 거다."</div>
+    <div class="motto-sub">1순위: 🏋️ 운동 + 📈 주식 | 2순위: 💻 코딩 + 🇺🇸 영어</div>
+</div>
+
+<!-- 주차 선택 -->
 <div class="week-selector">
     <div class="week-btn active" onclick="showWeek(1)">1주차<br><span class="small">2/1~7</span></div>
     <div class="week-btn" onclick="showWeek(2)">2주차<br><span class="small">2/8~14</span></div>
@@ -250,79 +83,35 @@
     <div class="week-btn" onclick="showWeek(4)">4주차<br><span class="small">2/22~28</span></div>
 </div>
 
-<h1>🔥 스위치온 4주 플랜</h1>
+<h1>🔥 스위치온 4주 식단</h1>
+
+<div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#2d1b1b;border:1px solid #e94560;"></div> 단식</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#3d2b1b;border:1px solid #ffd369;"></div> 치팅</div>
+    <div class="legend-item">🥚 맥반석 계란</div>
+    <div class="legend-item">☕ CONA 블랙</div>
+</div>
 
 <!-- 1주차 -->
 <div id="week1" class="week-content">
     <div class="phase">
-        <div class="phase-title">1주차: 오토파지 + 적응기</div>
+        <div class="phase-title">1주차: 3일 단식 + 적응기</div>
         <div class="phase-date">2/1(일) ~ 2/7(토)</div>
     </div>
-    
-    <div class="calendar">
-        <table>
-            <tr>
-                <th>날짜</th>
-                <th>아침</th>
-                <th>점심</th>
-                <th>간식</th>
-                <th>저녁</th>
-            </tr>
-            <tr class="fast-day">
-                <td><strong>2/1 일</strong></td>
-                <td>물</td>
-                <td>물</td>
-                <td>물</td>
-                <td>물</td>
-            </tr>
-            <tr class="fast-day">
-                <td><strong>2/2 월</strong></td>
-                <td>물</td>
-                <td>물</td>
-                <td>물</td>
-                <td>물</td>
-            </tr>
-            <tr class="fast-day">
-                <td><strong>2/3 화</strong></td>
-                <td>물</td>
-                <td>물</td>
-                <td>물</td>
-                <td>물</td>
-            </tr>
-            <tr>
-                <td><strong>2/4 수</strong></td>
-                <td>물</td>
-                <td>🥚×3</td>
-                <td>🥚×2</td>
-                <td>무탄수</td>
-            </tr>
-            <tr>
-                <td><strong>2/5 목</strong></td>
-                <td>물</td>
-                <td>🥚×3</td>
-                <td>🥚×2</td>
-                <td>무탄수</td>
-            </tr>
-            <tr>
-                <td><strong>2/6 금</strong></td>
-                <td>물</td>
-                <td>🥚×3</td>
-                <td>🥚×2</td>
-                <td>무탄수</td>
-            </tr>
-            <tr>
-                <td><strong>2/7 토</strong></td>
-                <td>물</td>
-                <td>🥚×3</td>
-                <td>🥚×2</td>
-                <td>무탄수</td>
-            </tr>
-        </table>
-    </div>
-    
+    <div class="calendar"><table>
+        <tr><th>날짜</th><th>점심</th><th>간식</th><th>저녁</th></tr>
+        <tr class="fast-day"><td><strong>2/1 일</strong></td><td>물 ☕</td><td>물</td><td>물</td></tr>
+        <tr class="fast-day"><td><strong>2/2 월</strong></td><td>물 ☕</td><td>물</td><td>물</td></tr>
+        <tr class="fast-day"><td><strong>2/3 화</strong></td><td>물 ☕</td><td>물</td><td>물</td></tr>
+        <tr><td><strong>2/4 수</strong></td><td>🥚×3</td><td>🥚×2</td><td>저탄수🍚⅓</td></tr>
+        <tr><td><strong>2/5 목</strong></td><td>🥚×3</td><td>🥚×2</td><td>저탄수🍚⅓</td></tr>
+        <tr><td><strong>2/6 금</strong></td><td>🥚×3</td><td>🥚×2</td><td>저탄수🍚⅓</td></tr>
+        <tr><td><strong>2/7 토</strong></td><td>🥚×3</td><td>🥚×2</td><td>저탄수🍚⅓</td></tr>
+    </table></div>
     <div class="tip">
-        <strong>1~3일 허용:</strong> 물, 블랙커피(오전)<br>
-        <strong>4~7일:</strong> 점심 계란으로 단식 종료 → 저녁 아버지와 (밥X)
+        <strong>1~3일:</strong> 물 + ☕ CONA 블랙 (하루 2잔 이내)<br>
+        <strong>4일 첫끼:</strong> 계란 1개부터 천천히<br>
+        <strong>저녁:</strong> 아버지와 일반식 (밥 1/3)
     </div>
 </div>
 
@@ -332,72 +121,17 @@
         <div class="phase-title">2주차: 24시간 단식 1회</div>
         <div class="phase-date">2/8(토) ~ 2/14(금)</div>
     </div>
-    
-    <div class="calendar">
-        <table>
-            <tr>
-                <th>날짜</th>
-                <th>아침</th>
-                <th>점심</th>
-                <th>간식</th>
-                <th>저녁</th>
-            </tr>
-            <tr>
-                <td><strong>2/8 토</strong></td>
-                <td>물</td>
-                <td>저탄수</td>
-                <td>🥚×2</td>
-                <td>무탄수</td>
-            </tr>
-            <tr class="fast-day">
-                <td><strong>2/9 일</strong></td>
-                <td>물</td>
-                <td>물</td>
-                <td>물</td>
-                <td>물 ⚡단식</td>
-            </tr>
-            <tr>
-                <td><strong>2/10 화</strong></td>
-                <td>물</td>
-                <td>저탄수</td>
-                <td>🥚×2</td>
-                <td>무탄수 ✨</td>
-            </tr>
-            <tr>
-                <td><strong>2/11 수</strong></td>
-                <td>물</td>
-                <td>저탄수</td>
-                <td>🥚×2</td>
-                <td>무탄수</td>
-            </tr>
-            <tr>
-                <td><strong>2/12 목</strong></td>
-                <td>물</td>
-                <td>저탄수</td>
-                <td>🥚×2</td>
-                <td>무탄수</td>
-            </tr>
-            <tr>
-                <td><strong>2/13 금</strong></td>
-                <td>물</td>
-                <td>저탄수</td>
-                <td>🥚×2</td>
-                <td>무탄수</td>
-            </tr>
-            <tr>
-                <td><strong>2/14 토</strong></td>
-                <td>물</td>
-                <td>저탄수</td>
-                <td>🥚×2</td>
-                <td>무탄수</td>
-            </tr>
-        </table>
-    </div>
-    
-    <div class="tip">
-        ⚡ <strong>2/9:</strong> 24시간 단식 (일요일 점심→월요일 점심)<br>
-        ✨ <strong>2/10:</strong> 단식 제외일
-    </div>
+    <div class="calendar"><table>
+        <tr><th>날짜</th><th>점심</th><th>간식</th><th>저녁</th></tr>
+        <tr><td><strong>2/8 토</strong></td><td>🥚×3</td><td>🥚×2</td><td>저탄수</td></tr>
+        <tr class="fast-day"><td><strong>2/9 일 ⚡</strong></td><td>물 ☕</td><td>물</td><td>물</td></tr>
+        <tr><td><strong>2/10 화 ✨</strong></td><td>🥚×3</td><td>🥚×2</td><td>저탄수</td></tr>
+        <tr><td><strong>2/11 수</strong></td><td>🥚×3</td><td>🥚×2</td><td>저탄수</td></tr>
+        <tr><td><strong>2/12 목</strong></td><td>🥚×3</td><td>🥚×2</td><td>저탄수</td></tr>
+        <tr><td><strong>2/13 금</strong></td><td>🥚×3</td><td>🥚×2</td><td>저탄수</td></tr>
+        <tr><td><strong>2/14 토</strong></td><td>🥚×3</td><td>🥚×2</td><td>저탄수</td></tr>
+    </table></div>
+    <div class="tip">⚡ 2/9: 24시간 단식 | ✨ 2/10: 단식 제외일</div>
 </div>
 
 <!-- 3주차 -->
@@ -406,72 +140,17 @@
         <div class="phase-title">3주차: 24시간 단식 2회</div>
         <div class="phase-date">2/15(토) ~ 2/21(금)</div>
     </div>
-    
-    <div class="calendar">
-        <table>
-            <tr>
-                <th>날짜</th>
-                <th>아침</th>
-                <th>점심</th>
-                <th>간식</th>
-                <th>저녁</th>
-            </tr>
-            <tr>
-                <td><strong>2/15 토</strong></td>
-                <td>물</td>
-                <td>저탄수</td>
-                <td>🥚×2</td>
-                <td>무탄수</td>
-            </tr>
-            <tr class="fast-day">
-                <td><strong>2/16 일</strong></td>
-                <td>물</td>
-                <td>물</td>
-                <td>물</td>
-                <td>물 ⚡①</td>
-            </tr>
-            <tr>
-                <td><strong>2/17 월</strong></td>
-                <td>물</td>
-                <td>저탄수</td>
-                <td>🥚×2</td>
-                <td>무탄수</td>
-            </tr>
-            <tr>
-                <td><strong>2/18 화</strong></td>
-                <td>물</td>
-                <td>저탄수</td>
-                <td>🥚×2</td>
-                <td>무탄수</td>
-            </tr>
-            <tr class="fast-day">
-                <td><strong>2/19 수</strong></td>
-                <td>물</td>
-                <td>물</td>
-                <td>물</td>
-                <td>물 ⚡②</td>
-            </tr>
-            <tr>
-                <td><strong>2/20 목</strong></td>
-                <td>물</td>
-                <td>저탄수</td>
-                <td>🥚×2</td>
-                <td>무탄수</td>
-            </tr>
-            <tr>
-                <td><strong>2/21 금</strong></td>
-                <td>물</td>
-                <td>저탄수</td>
-                <td>🥚×2</td>
-                <td>무탄수</td>
-            </tr>
-        </table>
-    </div>
-    
-    <div class="tip">
-        ⚡ <strong>단식일:</strong> 2/16(일), 2/19(수)<br>
-        ⚠️ 이틀 연속 단식 금지!
-    </div>
+    <div class="calendar"><table>
+        <tr><th>날짜</th><th>점심</th><th>간식</th><th>저녁</th></tr>
+        <tr><td><strong>2/15 토</strong></td><td>🥚×3</td><td>🥚×2</td><td>저탄수</td></tr>
+        <tr class="fast-day"><td><strong>2/16 일 ⚡①</strong></td><td>물 ☕</td><td>물</td><td>물</td></tr>
+        <tr><td><strong>2/17 월</strong></td><td>🥚×3</td><td>🥚×2</td><td>저탄수</td></tr>
+        <tr><td><strong>2/18 화</strong></td><td>🥚×3</td><td>🥚×2</td><td>저탄수</td></tr>
+        <tr class="fast-day"><td><strong>2/19 수 ⚡②</strong></td><td>물 ☕</td><td>물</td><td>물</td></tr>
+        <tr><td><strong>2/20 목</strong></td><td>🥚×3</td><td>🥚×2</td><td>저탄수</td></tr>
+        <tr><td><strong>2/21 금</strong></td><td>🥚×3</td><td>🥚×2</td><td>저탄수</td></tr>
+    </table></div>
+    <div class="tip">⚡ 단식: 2/16(일), 2/19(수) | ⚠️ 연속 단식 금지!</div>
 </div>
 
 <!-- 4주차 -->
@@ -480,398 +159,320 @@
         <div class="phase-title">4주차: 24시간 단식 3회 + 치팅데이</div>
         <div class="phase-date">2/22(토) ~ 2/28(금)</div>
     </div>
-    
-    <div class="calendar">
-        <table>
-            <tr>
-                <th>날짜</th>
-                <th>아침</th>
-                <th>점심</th>
-                <th>간식</th>
-                <th>저녁</th>
-            </tr>
-            <tr>
-                <td><strong>2/22 토</strong></td>
-                <td>물</td>
-                <td>저탄수</td>
-                <td>🥚×2</td>
-                <td>무탄수</td>
-            </tr>
-            <tr class="fast-day">
-                <td><strong>2/23 일</strong></td>
-                <td>물</td>
-                <td>물</td>
-                <td>물</td>
-                <td>물 ⚡①</td>
-            </tr>
-            <tr>
-                <td><strong>2/24 월</strong></td>
-                <td>물</td>
-                <td>저탄수</td>
-                <td>🥚×2</td>
-                <td>무탄수</td>
-            </tr>
-            <tr class="fast-day">
-                <td><strong>2/25 화</strong></td>
-                <td>물</td>
-                <td>물</td>
-                <td>물</td>
-                <td>물 ⚡②</td>
-            </tr>
-            <tr>
-                <td><strong>2/26 수</strong></td>
-                <td>물</td>
-                <td>저탄수</td>
-                <td>🥚×2</td>
-                <td>무탄수</td>
-            </tr>
-            <tr class="fast-day">
-                <td><strong>2/27 목</strong></td>
-                <td>물</td>
-                <td>물</td>
-                <td>물</td>
-                <td>물 ⚡③</td>
-            </tr>
-            <tr class="cheat-day">
-                <td><strong>2/28 금</strong></td>
-                <td>물</td>
-                <td>저탄수</td>
-                <td>-</td>
-                <td>🍺 회식</td>
-            </tr>
-        </table>
-    </div>
-    
-    <div class="tip">
-        ⚡ <strong>단식일:</strong> 2/23, 2/25, 2/27 (3회)<br>
-        🍺 <strong>2/28:</strong> 치팅데이 (회식) - 4주 완주 축하!
-    </div>
+    <div class="calendar"><table>
+        <tr><th>날짜</th><th>점심</th><th>간식</th><th>저녁</th></tr>
+        <tr><td><strong>2/22 토</strong></td><td>🥚×3</td><td>🥚×2</td><td>저탄수</td></tr>
+        <tr class="fast-day"><td><strong>2/23 일 ⚡①</strong></td><td>물 ☕</td><td>물</td><td>물</td></tr>
+        <tr><td><strong>2/24 월</strong></td><td>🥚×3</td><td>🥚×2</td><td>저탄수</td></tr>
+        <tr class="fast-day"><td><strong>2/25 화 ⚡②</strong></td><td>물 ☕</td><td>물</td><td>물</td></tr>
+        <tr><td><strong>2/26 수</strong></td><td>🥚×3</td><td>🥚×2</td><td>저탄수</td></tr>
+        <tr class="fast-day"><td><strong>2/27 목 ⚡③</strong></td><td>물 ☕</td><td>물</td><td>물</td></tr>
+        <tr class="cheat-day"><td><strong>2/28 금 🍺</strong></td><td>🥚×3</td><td>-</td><td>회식!</td></tr>
+    </table></div>
+    <div class="tip">⚡ 단식: 2/23, 25, 27 | 🍺 2/28: 치팅데이 🎉</div>
 </div>
 
 <div class="divider"></div>
 
+<!-- ===== 체크리스트 ===== -->
 <h1>✅ 오늘 체크리스트</h1>
 
-<h2>🌅 아침</h2>
+<!-- 오늘 약속 토글 -->
+<div style="margin:12px 0;">
+    <div class="check" data-id="appt" data-type="daily" style="border:2px solid #e85d04;border-radius:8px;padding:12px;background:#2d1b1b;">
+        <div class="box" style="border-color:#e85d04;"></div>
+        <span class="check-text" style="color:#e85d04;font-weight:bold;">🔔 오늘 약속 있음 (🔴만 체크)</span>
+    </div>
+</div>
+
+<h2>🌅 아침 (06:00)</h2>
 <div class="card">
     <div class="check" data-id="d1" data-type="daily">
         <div class="box"></div>
-        <span class="check-text">🔴 혈압 측정 (물 마시기 전)</span>
+        <span class="check-text">🔴 혈압 → 물 500ml → 인바디</span>
     </div>
     <div class="check" data-id="d2" data-type="daily">
         <div class="box"></div>
-        <span class="check-text">🔴 물 500ml</span>
+        <span class="check-text">🏋️ 아침 운동 40분 <span class="priority-tag p1">1순위</span></span>
     </div>
+</div>
+
+<h2>🍽️ 식사</h2>
+<div class="card">
     <div class="check" data-id="d3" data-type="daily">
         <div class="box"></div>
-        <span class="check-text">🔴 인바디 측정</span>
+        <span class="check-text">🔴 점심 맥반석 계란 (무탄수)</span>
     </div>
     <div class="check" data-id="d4" data-type="daily">
         <div class="box"></div>
-        <span class="check-text">아침 운동</span>
+        <span class="check-text">🔴 간식 계란 2개 (15시)</span>
     </div>
-</div>
-
-<h2>🍽️ 식사 (일정표 확인)</h2>
-<div class="card">
     <div class="check" data-id="d5" data-type="daily">
         <div class="box"></div>
-        <span class="check-text">🔴 오늘 식단 준수</span>
+        <span class="check-text">🔴 저녁 저탄수 (밥 1/3)</span>
     </div>
     <div class="check" data-id="d6" data-type="daily">
         <div class="box"></div>
-        <span class="check-text">🔴 물 2L 완료</span>
+        <span class="check-text">🔴 물 2L + 당류 0</span>
     </div>
+</div>
+
+<h2>📈 저녁 공부 (20:10~) <span class="priority-tag p1">1순위</span></h2>
+<div class="card">
     <div class="check" data-id="d7" data-type="daily">
         <div class="box"></div>
-        <span class="check-text">🔴 당류 섭취 0</span>
-    </div>
-</div>
-
-<h2>💪 운동</h2>
-<div class="card">
-    <div class="check" data-id="d8" data-type="daily">
-        <div class="box"></div>
-        <span class="check-text">오늘 운동 완료</span>
-    </div>
-</div>
-<table>
-    <tr><th>요일</th><th>버피</th><th>턱걸이</th><th>추가</th></tr>
-    <tr><td><strong>월/수/금</strong></td><td>100</td><td>30</td><td>플란체린</td></tr>
-    <tr><td><strong>화/목/토</strong></td><td>50</td><td>15</td><td>파이크푸쉬업</td></tr>
-    <tr><td><strong>일</strong></td><td>-</td><td>-</td><td>휴식/걷기</td></tr>
-</table>
-
-<div class="tip">
-    💡 단식일에는 가벼운 운동만 (걷기 정도)<br>
-    일반일에는 풀 운동 OK
-</div>
-
-<h2>📚 학습</h2>
-<div class="card">
-    <div class="check" data-id="d9" data-type="daily">
-        <div class="box"></div>
-        <span class="check-text">듀오링고 30분+</span>
-    </div>
-    <div class="check" data-id="d10" data-type="daily">
-        <div class="box"></div>
-        <span class="check-text">종가 TOP5 확인</span>
+        <span class="check-text">📈 주식 공부 / 봇 개발 / 백테스트</span>
     </div>
 </div>
 
 <h2>🌙 자기 전</h2>
 <div class="card">
-    <div class="check" data-id="d11" data-type="daily">
+    <div class="check" data-id="d8" data-type="daily">
         <div class="box"></div>
-        <span class="check-text">🔴 My Life RPG 블로그 작성</span>
+        <span class="check-text">🔴 블로그 작성 (22:30)</span>
     </div>
 </div>
 
 <div class="divider"></div>
 
-<h1>🚫 절대 금지 식품</h1>
+<!-- ===== 일과표 ===== -->
+<h1>📋 일과표</h1>
 
+<!-- 모드 토글 -->
+<div class="toggle-bar">
+    <div class="toggle-btn active" onclick="showMode('work')">🏢 근무일</div>
+    <div class="toggle-btn" onclick="showMode('off')">🌴 휴무일</div>
+    <div class="toggle-btn" onclick="showMode('appt')">📅 약속일</div>
+    <div class="toggle-btn" onclick="showMode('fast')">⚡ 단식일</div>
+</div>
+
+<!-- 근무일 -->
+<div id="mode-work" class="mode-content">
+    <h2>🏢 근무일 (06:58 출발 ~ 19:40 귀가)</h2>
+    <div class="card">
+        <div class="row"><span class="time">06:00</span><span>기상 → 혈압 → 물 → 인바디</span></div>
+        <div class="row"><span class="time">06:10</span><span><span class="highlight">🏋️ 운동 40분</span> <span class="priority-tag p1">1순위</span></span></div>
+        <div class="row"><span class="time">06:55</span><span>출발</span></div>
+        <div class="row"><span class="time">🚌</span><span>🎧 주식뉴스 or 잠</span></div>
+        <div class="row"><span class="time">12:00</span><span>🥚 맥반석 계란 3개 (첫끼)</span></div>
+        <div class="row"><span class="time">15:00</span><span>🥚 맥반석 계란 2개</span></div>
+        <div class="row"><span class="time">🚌</span><span>🎧 주식 유튜브 or 잠</span></div>
+        <div class="row"><span class="time">19:40</span><span>귀가</span></div>
+        <div class="row"><span class="time">~20:10</span><span>저녁 🍚⅓ + 씻기</span></div>
+        <div class="row"><span class="time">20:10</span><span><span class="highlight">📈 주식 공부 2시간</span> <span class="priority-tag p1">1순위</span></span></div>
+        <div class="row"><span class="time">22:20</span><span>정리</span></div>
+        <div class="row"><span class="time">22:30</span><span>📝 블로그</span></div>
+        <div class="row"><span class="time">23:00</span><span>취침 (자정~4시 필수)</span></div>
+    </div>
+    <div class="tip">
+        🎧 <strong>버스:</strong> 삼프로TV 아침브리핑 / 주식 유튜브 (or 잠)<br>
+        📈 <strong>저녁 2시간:</strong> 봇 개발, 백테스트, 종목 분석, 유목민 공부
+    </div>
+</div>
+
+<!-- 휴무일 -->
+<div id="mode-off" class="mode-content" style="display:none;">
+    <h2>🌴 휴무일 (자기개발 풀타임)</h2>
+    <div class="card">
+        <div class="row"><span class="time">08:00</span><span>기상 → 혈압 → 물 → 인바디</span></div>
+        <div class="row"><span class="time">08:30</span><span><span class="highlight">🏋️ 운동 1.5시간</span> (풀 볼륨) <span class="priority-tag p1">1순위</span></span></div>
+        <div class="row"><span class="time">10:00</span><span><span class="highlight">📈 주식 2시간</span> (백테스트/봇) <span class="priority-tag p1">1순위</span></span></div>
+        <div class="row"><span class="time">12:00</span><span>🥚 맥반석 계란 3개 (첫끼)</span></div>
+        <div class="row"><span class="time">13:00</span><span><span class="highlight-orange">💻 코딩/앱개발 2시간</span> <span class="priority-tag p2">2순위</span></span></div>
+        <div class="row"><span class="time">15:00</span><span>🥚 계란 2개</span></div>
+        <div class="row"><span class="time">15:30</span><span><span class="highlight-orange">🇺🇸 영어 1.5시간</span> (듀오링고) <span class="priority-tag p2">2순위</span></span></div>
+        <div class="row"><span class="time">17:00</span><span>자유시간</span></div>
+        <div class="row"><span class="time">18:30</span><span>저녁 🍚⅓ (아버지와)</span></div>
+        <div class="row"><span class="time">20:00</span><span>자유 (게임/쉬기 OK)</span></div>
+        <div class="row"><span class="time">22:30</span><span>📝 블로그</span></div>
+        <div class="row"><span class="time">23:00</span><span>취침</span></div>
+    </div>
+    <div class="tip">
+        <span class="priority-tag p1">1순위</span> 운동 + 주식 먼저!<br>
+        <span class="priority-tag p2">2순위</span> 코딩/영어는 여유 있을 때
+    </div>
+</div>
+
+<!-- 약속일 -->
+<div id="mode-appt" class="mode-content" style="display:none;">
+    <h2>📅 약속 있는 날 (🔴 필수만)</h2>
+    <div class="card">
+        <div class="row"><span class="time">아침</span><span>🔴 혈압 → 물 → 인바디</span></div>
+        <div class="row"><span class="time">12:00</span><span>🔴 점심 계란</span></div>
+        <div class="row"><span class="time">15:00</span><span>🔴 간식 계란</span></div>
+        <div class="row"><span class="time">저녁</span><span>🔴 저탄수 (밥 1/3)</span></div>
+        <div class="row"><span class="time">밤</span><span>🔴 물 2L + 당류 0</span></div>
+        <div class="row"><span class="time">22:30</span><span>🔴 블로그 (한 줄이라도)</span></div>
+    </div>
+    <div class="tip">
+        자기개발은 안 해도 OK!<br>
+        <strong>식단 + 블로그만 지키면 성공</strong>
+    </div>
+</div>
+
+<!-- 단식일 -->
+<div id="mode-fast" class="mode-content" style="display:none;">
+    <h2>⚡ 24시간 단식일</h2>
+    <div class="card">
+        <div class="row"><span class="time">종일</span><span>물 + ☕ CONA 블랙만</span></div>
+        <div class="row"><span class="time">운동</span><span>걷기 정도만</span></div>
+        <div class="row"><span class="time">공부</span><span>가볍게 or 패스</span></div>
+        <div class="row"><span class="time">22:30</span><span>📝 블로그</span></div>
+        <div class="row"><span class="time">다음날</span><span>점심에 계란으로 단식 종료</span></div>
+    </div>
+    <div class="tip">
+        단식일 = 쉬는 날. 무리 금지!
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===== 운동 ===== -->
+<h1>🏋️ 운동 (넓은 어깨 + 몸짱)</h1>
+
+<h2>근무일 아침 (06:10~06:50, 40분)</h2>
+<div class="card">
+    <div class="row"><span>턱걸이</span><span class="value">5세트 × 최대 반복</span></div>
+    <div class="row"><span>파이크 푸쉬업</span><span class="value">4세트 × 10회</span></div>
+    <div class="row"><span>버피</span><span class="value">50회</span></div>
+    <div class="row"><span>플란체린</span><span class="value">3세트 × 15초</span></div>
+</div>
+
+<h2>휴무일 (08:30~10:00, 1.5시간)</h2>
+<div class="card">
+    <div class="row"><span>턱걸이</span><span class="value">8세트 × 최대 반복</span></div>
+    <div class="row"><span>파이크 푸쉬업</span><span class="value">5세트 × 12회</span></div>
+    <div class="row"><span>버피</span><span class="value">100회</span></div>
+    <div class="row"><span>플란체린</span><span class="value">5세트 × 20초</span></div>
+    <div class="row"><span>딥스 (의자)</span><span class="value">4세트 × 10회</span></div>
+</div>
+
+<div class="tip">
+    💡 <strong>넓은 어깨 핵심:</strong> 턱걸이 (등 넓이) + 파이크 푸쉬업 (어깨 벌크)<br>
+    버피는 100→50으로 줄이고 턱걸이에 시간 투자!<br>
+    단식 중엔 걷기만 OK
+</div>
+
+<div class="divider"></div>
+
+<!-- ===== 금지 ===== -->
+<h1>🚫 절대 금지</h1>
 <div class="forbidden">
     <div class="forbidden-title">4주간 절대 금지</div>
     • 설탕, 과자, 아이스크림, 주스<br>
     • 밀가루 (빵, 라면, 파스타)<br>
     • 술 (2/28 회식 제외)<br>
-    • 삼겹살, 갈비, 곱창<br>
-    • 튀김, 도넛<br>
-    • 제로콜라, 대체당 음료<br>
-    • 국물, 찌개 국물<br>
+    • 삼겹살, 갈비, 곱창 / 튀김<br>
+    • 제로콜라, 대체당 / 짠 국물<br>
     • 가당 커피 (레쓰비 등) ❌
 </div>
-
-<div class="tip">
-    ☕ 허용: 블랙커피 (오전 1~2잔)<br>
-    🥚 맥반석 계란 추천
-</div>
+<div class="tip">☕ 허용: CONA 블랙 (하루 2잔) | 🥚 맥반석 계란</div>
 
 <div class="divider"></div>
 
+<!-- ===== 주간 체크 ===== -->
 <h1>📅 주간 체크 <span class="small">(월요일 초기화)</span></h1>
-
 <div class="card">
-    <div class="check" data-id="w1" data-type="weekly">
-        <div class="box"></div>
-        <span class="check-text">체중 주간 변화 기록</span>
-    </div>
-    <div class="check" data-id="w2" data-type="weekly">
-        <div class="box"></div>
-        <span class="check-text">24시간 단식 완료</span>
-    </div>
-    <div class="check" data-id="w3" data-type="weekly">
-        <div class="box"></div>
-        <span class="check-text">당류 섭취 0 (7일)</span>
-    </div>
-    <div class="check" data-id="w4" data-type="weekly">
-        <div class="box"></div>
-        <span class="check-text">운동 6일</span>
-    </div>
-    <div class="check" data-id="w5" data-type="weekly">
-        <div class="box"></div>
-        <span class="check-text">듀오링고 4~5유닛</span>
-    </div>
+    <div class="check" data-id="w1" data-type="weekly"><div class="box"></div><span class="check-text">체중 주간 변화 기록</span></div>
+    <div class="check" data-id="w2" data-type="weekly"><div class="box"></div><span class="check-text">24시간 단식 완료 (2주차~)</span></div>
+    <div class="check" data-id="w3" data-type="weekly"><div class="box"></div><span class="check-text">당류 섭취 0 (7일)</span></div>
+    <div class="check" data-id="w4" data-type="weekly"><div class="box"></div><span class="check-text">운동 5일+</span></div>
+    <div class="check" data-id="w5" data-type="weekly"><div class="box"></div><span class="check-text">주식 공부 평일 매일</span></div>
 </div>
 
 <div class="divider"></div>
 
+<!-- ===== 목표 ===== -->
 <h1>🎯 4주 목표</h1>
-
 <div class="grid2">
-    <div class="stat"><div class="stat-num">84.8</div><div class="stat-label">현재 체중</div></div>
+    <div class="stat"><div class="stat-num">84.8</div><div class="stat-label">시작 체중</div></div>
     <div class="stat"><div class="stat-num">75~78</div><div class="stat-label">4주 후 목표</div></div>
 </div>
 
-<div class="tip">
-    <strong>철저하게 당 절제 = 10kg+</strong><br>
-    물단식 3일 + 24시간 단식 6회 = 확실한 체질 전환!
+<h2>단식 캘린더</h2>
+<div class="card">
+    <div class="row"><span>🔥 물단식 3일</span><span class="value">2/1, 2, 3</span></div>
+    <div class="row"><span>⚡ 24시간 단식 6회</span><span class="value">2/9, 16, 19, 23, 25, 27</span></div>
+    <div class="row"><span>✨ 단식 제외</span><span class="value">2/10</span></div>
+    <div class="row"><span>🍺 치팅데이</span><span class="value">2/28 회식</span></div>
 </div>
 
-<h2>단식 요약</h2>
+<h2>우선순위</h2>
 <div class="card">
-    <div class="row"><span>물단식</span><span class="value">2/1~3 (3일)</span></div>
-    <div class="row"><span>24시간 단식</span><span class="value">총 6회</span></div>
-    <div class="row"><span>단식 제외</span><span class="value">2/10</span></div>
-    <div class="row"><span>치팅데이</span><span class="value">2/28 회식 🍺</span></div>
+    <div class="row"><span><span class="priority-tag p1">1순위</span> 운동</span><span class="value">매일 아침 (휴무일 풀)</span></div>
+    <div class="row"><span><span class="priority-tag p1">1순위</span> 주식</span><span class="value">평일 저녁 2h + 버스</span></div>
+    <div class="row"><span><span class="priority-tag p2">2순위</span> 코딩/앱</span><span class="value">휴무일 오후 2h</span></div>
+    <div class="row"><span><span class="priority-tag p2">2순위</span> 영어</span><span class="value">휴무일 오후 1.5h</span></div>
 </div>
 
 <div class="divider"></div>
 
-<h1>📋 일과표</h1>
-
-<h2>🏢 근무일 (일반)</h2>
-<div class="card">
-    <div class="row"><span class="time">06:00</span><span>기상 → 혈압 → 물 → 인바디</span></div>
-    <div class="row"><span class="time">06:15</span><span>운동 or 듀오링고</span></div>
-    <div class="row"><span class="time">07:00</span><span>출근 버스 🎧</span></div>
-    <div class="row"><span class="time">12:00</span><span>점심 저탄수 (밥 1/3)</span></div>
-    <div class="row"><span class="time">15:00</span><span><span class="highlight">🥚 계란 2개</span></span></div>
-    <div class="row"><span class="time">18:00</span><span>퇴근</span></div>
-    <div class="row"><span class="time">19:00</span><span>저녁 무탄수 (아버지와, 밥X)</span></div>
-    <div class="row"><span class="time">22:30</span><span>블로그 작성</span></div>
-    <div class="row"><span class="time">23:00</span><span>취침 (자정~4시 필수)</span></div>
-</div>
-
-<h2>⚡ 24시간 단식일</h2>
-<div class="card">
-    <div class="row"><span class="time">종일</span><span>물 + 블랙커피만</span></div>
-    <div class="row"><span class="time">운동</span><span>가볍게 (걷기 정도)</span></div>
-    <div class="row"><span class="time">다음날</span><span>점심에 고단백으로 단식 종료</span></div>
-</div>
-
-<h2>🌴 휴무일</h2>
-<div class="card">
-    <div class="row"><span class="time">08:00</span><span>기상 → 혈압 → 물 → 인바디</span></div>
-    <div class="row"><span class="time">09:00</span><span>걷기 1시간</span></div>
-    <div class="row"><span class="time">10:00</span><span>듀오링고 / 코딩</span></div>
-    <div class="row"><span class="time">12:00</span><span>점심 저탄수</span></div>
-    <div class="row"><span class="time">15:00</span><span><span class="highlight">🥚 계란</span> + 운동</span></div>
-    <div class="row"><span class="time">18:30</span><span>저녁 무탄수 (아버지와)</span></div>
-    <div class="row"><span class="time">22:30</span><span>블로그 작성</span></div>
-    <div class="row"><span class="time">23:00</span><span>취침</span></div>
-</div>
-
-<div class="divider"></div>
-
-<div class="card" style="text-align:center; margin-top:20px;">
-    <p style="color:#00ff88; font-size:1.1rem;">"4주만 버티면 체질이 바뀐다"</p>
-    <p class="small">2/28 회식에서 맛있게 먹자! 💪</p>
+<div class="card" style="text-align:center;margin-top:20px;">
+    <p style="color:#00ff88;font-size:1.1rem;">"2/28 회식에서 맛있게 먹자"</p>
+    <p class="small">약속 있는 날? 식단만 지키면 OK<br>70%면 충분. 지속이 핵심 💪</p>
     <button class="reset-btn" onclick="resetAll()" style="margin-top:12px;">전체 초기화</button>
 </div>
 
-<p style="text-align:center; margin-top:20px; color:#666; font-size:0.75rem;">
-    v4.1 스위치온 | 2/1~2/28<br>
+<p style="text-align:center;margin-top:20px;color:#666;font-size:0.75rem;">
+    v4.4 스위치온 | 2/1~2/28<br>
     일간:자정초기화 | 주간:월요일초기화
 </p>
 
 <script>
-(function() {
-    const STORAGE_KEY = 'masterplan_checks';
-    const DATE_KEY = 'masterplan_date';
-    const WEEK_KEY = 'masterplan_week';
-    
-    function getTodayStr() {
-        const d = new Date();
-        return d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
+(function(){
+    const SK='mp_chk',DK='mp_dt',WK='mp_wk';
+    function td(){const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();}
+    function tw(){const d=new Date(),dy=d.getDay(),df=d.getDate()-dy+(dy===0?-6:1),m=new Date(d.setDate(df));return m.getFullYear()+'-'+(m.getMonth()+1)+'-'+m.getDate();}
+    function wd(){return['일','월','화','수','목','금','토'][new Date().getDay()];}
+    function ld(){try{return JSON.parse(localStorage.getItem(SK))||{};}catch(e){return{};}}
+    function sd(d){localStorage.setItem(SK,JSON.stringify(d));}
+    function cr(){
+        const s=localStorage.getItem(DK),w=localStorage.getItem(WK),t=td(),wk=tw();let d=ld();
+        if(s!==t){Object.keys(d).forEach(k=>{if(k.startsWith('d'))d[k]=false;});localStorage.setItem(DK,t);}
+        if(w!==wk){Object.keys(d).forEach(k=>{if(k.startsWith('w'))d[k]=false;});localStorage.setItem(WK,wk);}
+        sd(d);return d;
     }
-    
-    function getWeekStr() {
-        const d = new Date();
-        const day = d.getDay();
-        const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-        const monday = new Date(d.setDate(diff));
-        return monday.getFullYear() + '-' + (monday.getMonth()+1) + '-' + monday.getDate();
+    function ui(d){
+        document.querySelectorAll('.check').forEach(el=>{
+            const id=el.dataset.id,b=el.querySelector('.box');
+            if(d[id]){b.classList.add('checked');el.classList.add('done');}
+            else{b.classList.remove('checked');el.classList.remove('done');}
+        });up(d);
     }
-    
-    function getWeekdayKor() {
-        const days = ['일', '월', '화', '수', '목', '금', '토'];
-        return days[new Date().getDay()];
-    }
-    
-    function loadData() {
-        try {
-            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-        } catch(e) {
-            return {};
-        }
-    }
-    
-    function saveData(data) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    }
-    
-    function checkAndReset() {
-        const savedDate = localStorage.getItem(DATE_KEY);
-        const savedWeek = localStorage.getItem(WEEK_KEY);
-        const todayStr = getTodayStr();
-        const weekStr = getWeekStr();
-        
-        let data = loadData();
-        
-        if (savedDate !== todayStr) {
-            Object.keys(data).forEach(key => {
-                if (key.startsWith('d')) data[key] = false;
-            });
-            localStorage.setItem(DATE_KEY, todayStr);
-        }
-        
-        if (savedWeek !== weekStr) {
-            Object.keys(data).forEach(key => {
-                if (key.startsWith('w')) data[key] = false;
-            });
-            localStorage.setItem(WEEK_KEY, weekStr);
-        }
-        
-        saveData(data);
-        return data;
-    }
-    
-    function updateUI(data) {
-        document.querySelectorAll('.check').forEach(el => {
-            const id = el.dataset.id;
-            const box = el.querySelector('.box');
-            if (data[id]) {
-                box.classList.add('checked');
-                el.classList.add('done');
-            } else {
-                box.classList.remove('checked');
-                el.classList.remove('done');
-            }
+    function up(d){
+        let t=0,n=0;
+        document.querySelectorAll('.check[data-type="daily"]').forEach(el=>{
+            if(el.dataset.id==='appt')return;
+            t++;if(d[el.dataset.id])n++;
         });
-        updateProgress(data);
+        document.getElementById('daily-progress').textContent=n+'/'+t;
     }
-    
-    function updateProgress(data) {
-        let total = 0, done = 0;
-        document.querySelectorAll('.check[data-type="daily"]').forEach(el => {
-            total++;
-            if (data[el.dataset.id]) done++;
+    (function(){const d=new Date();document.getElementById('today-date').textContent=(d.getMonth()+1)+'/'+d.getDate()+' ('+wd()+')';})();
+    document.querySelectorAll('.check').forEach(el=>{
+        el.addEventListener('click',function(){
+            const id=this.dataset.id;let d=ld();d[id]=!d[id];sd(d);ui(d);
         });
-        document.getElementById('daily-progress').textContent = done + '/' + total;
-    }
-    
-    function showDate() {
-        const d = new Date();
-        const m = d.getMonth() + 1;
-        const day = d.getDate();
-        const weekday = getWeekdayKor();
-        document.getElementById('today-date').textContent = m + '/' + day + ' (' + weekday + ')';
-    }
-    
-    function initCheckboxes() {
-        document.querySelectorAll('.check').forEach(el => {
-            el.addEventListener('click', function() {
-                const id = this.dataset.id;
-                let data = loadData();
-                data[id] = !data[id];
-                saveData(data);
-                updateUI(data);
-            });
-        });
-    }
-    
-    window.resetAll = function() {
-        if (confirm('모든 체크를 초기화할까요?')) {
-            localStorage.removeItem(STORAGE_KEY);
-            localStorage.removeItem(DATE_KEY);
-            localStorage.removeItem(WEEK_KEY);
-            location.reload();
+    });
+    window.resetAll=function(){
+        if(confirm('모든 체크를 초기화할까요?')){
+            localStorage.removeItem(SK);localStorage.removeItem(DK);localStorage.removeItem(WK);location.reload();
         }
     };
-    
-    window.showWeek = function(week) {
-        document.querySelectorAll('.week-content').forEach(el => el.style.display = 'none');
-        document.querySelectorAll('.week-btn').forEach(el => el.classList.remove('active'));
-        document.getElementById('week' + week).style.display = 'block';
-        document.querySelectorAll('.week-btn')[week-1].classList.add('active');
+    window.showWeek=function(w){
+        document.querySelectorAll('.week-content').forEach(el=>el.style.display='none');
+        document.querySelectorAll('.week-btn').forEach(el=>el.classList.remove('active'));
+        document.getElementById('week'+w).style.display='block';
+        document.querySelectorAll('.week-btn')[w-1].classList.add('active');
     };
-    
-    showDate();
-    const data = checkAndReset();
-    initCheckboxes();
-    updateUI(data);
+    window.showMode=function(m){
+        document.querySelectorAll('.mode-content').forEach(el=>el.style.display='none');
+        document.querySelectorAll('.toggle-btn').forEach(el=>el.classList.remove('active','appt'));
+        document.getElementById('mode-'+m).style.display='block';
+        const btns=document.querySelectorAll('.toggle-btn');
+        const idx={work:0,off:1,appt:2,fast:3}[m];
+        btns[idx].classList.add(m==='appt'?'appt':'active');
+    };
+    ui(cr());
 })();
 </script>
 
